@@ -7,8 +7,12 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-default = ["bin"]
-bin = []
+default = ["bin", "lib"]
+bin = ["anyhow"]
+lib = ["thiserror"]
+
+[lib]
+required-features = ["lib"]
 
 [[bin]]
 name = "client"
@@ -21,3 +25,5 @@ path = "src/bin/server.rs"
 required-features = ["bin"]
 
 [dependencies]
+anyhow = { version = "1.0", optional = true }
+thiserror = { version = "1.0", optional = true }
