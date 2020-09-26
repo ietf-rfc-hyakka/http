@@ -1,0 +1,23 @@
+[package]
+name = "http_1_0"
+version = "0.1.0"
+authors = ["megumish <megumish@exploitouri.st>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = ["bin"]
+bin = []
+
+[[bin]]
+name = "client"
+path = "src/bin/client.rs"
+required-features = ["bin"]
+
+[[bin]]
+name = "server"
+path = "src/bin/server.rs"
+required-features = ["bin"]
+
+[dependencies]
