@@ -1,0 +1,4 @@
+GET http://localhost/index.html HTTP/1.0
+User-Agent: CERN-LineMode/2.15 libwww/2.17b3
+Content-Length: 0
+
