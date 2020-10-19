@@ -3,27 +3,30 @@ pub fn parse_uri(uri_str: impl AsRef<str>) -> URI {
     if uri_str.starts_with("http://") {
         let content = &uri_str["http://".len()..];
         let mut content_iter = content.split("/").into_iter();
-
         let authority = parse_authority(content_iter.next().expect("Failed to unwrap authority"));
         let path = parse_path(content_iter.next().expect("Failed to unwrap path"));
-
         todo!()
     } else {
         todo!()
     }
 }
 
+fn get_head_tail(content: impl AsRef<str>, pipe: impl AsRef<str>) -> HeadTail {
+  let mut iter = content.as_ref().split(pipe.as_ref()).into_iter();
+  let head = iter.next().expect("Failed to unwrap head").to_string();
+  let tail = iter.next().expect("Failed to unwrap tail").to_string();
+  HeadTail { head, tail }
+}
+
 fn parse_authority(target: impl AsRef<str>) -> Authority {
-  let mut content = target.as_ref().split(":").into_iter();
-  let host = content.next().expect("Failed to unwrap host").to_string();
-  let port = content.next().expect("Failed to unwrap port").to_string();
+  let content = get_head_tail(target.as_ref(), ":");
+  let (host, port) = (content.head, content.tail);
   Authority { host, port }
 }
 
 fn parse_path(target: impl AsRef<str>) -> Path {
-  let mut content = target.as_ref().split("?").into_iter();
-  let path = content.next().expect("Failed to unwrap host").to_string();
-  let searchpart = content.next().expect("Failed to unwrap port").to_string();
+  let content = get_head_tail(target.as_ref(), "?");
+  let (path, searchpart) = (content.head, content.tail);
   Path { path, searchpart }
 }
 
@@ -42,6 +45,11 @@ pub struct AbsoluteURI {
 enum Scheme {
     HTTP,
     Other(String),
+}
+
+struct HeadTail {
+  head: String,
+  tail: String,
 }
 
 struct Authority {
