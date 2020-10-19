@@ -14,7 +14,11 @@ pub fn parse_uri(uri_str: impl AsRef<str>) -> URI {
 fn get_head_tail(content: impl AsRef<str>, pipe: impl AsRef<str>) -> HeadTail {
   let mut iter = content.as_ref().split(pipe.as_ref()).into_iter();
   let head = iter.next().expect("Failed to unwrap head").to_string();
-  let tail = iter.next().expect("Failed to unwrap tail").to_string();
+  // port が指定されていない, query が指定されていないケースに備えて match で処理している
+  let tail = match iter.next() {
+    Some(data) => data.to_string(),
+    None => String::new()
+  };
   HeadTail { head, tail }
 }
 

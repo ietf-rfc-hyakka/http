@@ -19,7 +19,7 @@ async fn main() {
     let (s_tx, mut s_rx) = mpsc::unbounded_channel();
 
     tokio::spawn(async move {
-        let empty_body = "GET http://localhost/index.html HTTP/1.0 \r\n\
+        let empty_body = "GET http://localhost:8080/index.html HTTP/1.0 \r\n\
                           User-Agent: CERN-LineMode/2.15 libwww/2.17b3\r\n\
                           Content-Length: 0\r\n\r\n";
         s_tx.send(empty_body)
